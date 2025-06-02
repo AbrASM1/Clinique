@@ -1,0 +1,34 @@
+medical-backend/
+├── controllers/
+│   ├── appointments.controller.js
+│   ├── debts.controller.js
+│   ├── logs.controller.js
+│   ├── patients.controller.js
+│   ├── schedules.controller.js
+│   ├── treatments.controller.js
+│   ├── users.controller.js
+│   └── consumable_items.controller.js
+│
+├── routes/
+│   ├── appointments.routes.js
+│   ├── debts.routes.js
+│   ├── logs.routes.js
+│   ├── patients.routes.js
+│   ├── schedules.routes.js
+│   ├── treatments.routes.js
+│   ├── users.routes.js
+│   └── consumable_items.routes.js
+│
+├── models/
+│   ├── db.js                   
+│   └── init.sql               
+│
+├── middleware/
+│   ├── auth.js                 
+│   └── errorHandler.js         
+│
+├── .env                       
+├── .gitignore
+├── app.js                      
+├── package.json
+└── README.md
