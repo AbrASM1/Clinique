@@ -16,8 +16,8 @@ exports.validateAppointmentCreation = [
     .isIn(validStatuses).withMessage(`Status must be one of: ${validStatuses.join(', ')}`),
 
   body('date')
-    .optional({ checkFalsy: true })
-    .isISO8601().withMessage('Date must be in YYYY-MM-DD format'),
+    .isDate({ format: 'DD-MM-YYYY' })
+    .withMessage('Valid date is required'),
 
   body('start_time')
     .optional({ checkFalsy: true })
@@ -38,8 +38,8 @@ exports.validateAppointmentUpdate = [
     .isIn(validStatuses).withMessage(`Status must be one of: ${validStatuses.join(', ')}`),
 
   body('date')
-    .optional({ checkFalsy: true })
-    .isISO8601().withMessage('Date must be in YYYY-MM-DD format'),
+    .isDate({ format: 'DD-MM-YYYY' })
+    .withMessage('Valid date is required'),
 
   body('start_time')
     .optional({ checkFalsy: true })

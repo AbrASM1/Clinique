@@ -19,19 +19,15 @@ app.use(cookieParser());
     app.use(express.json());
 
     // // Routes
-    // app.use('/api/users', require('./routes/users.routes'));
-    // app.use('/api/patients', require('./routes/patients.routes'));
-    // app.use('/api/appointments', require('./routes/appointments.routes'));
-    // app.use('/api/treatments', require('./routes/treatments.routes'));
-    // app.use('/api/consumables', require('./routes/consumable_items.routes'));
-    // app.use('/api/debts', require('./routes/debts.routes'));
-    // app.use('/api/logs', require('./routes/logs.routes'));
-    // app.use('/api/schedules', require('./routes/schedules.routes'));
+
     app.use('/api/auth', require('./routes/auth.routes'));
     app.use('/api/users', require('./routes/users.routes'));
     app.use('/api/patients', require('./routes/patients.routes'));
-    app.use('/api/appointments', require('./routes/appointments.routes'))
-
+    app.use('/api/appointments', require('./routes/appointments.routes'));
+    app.use('/api/treatmentType', require('./routes/treatment_type.routes'));
+    app.use('/api/treatments', require('./routes/treatments.routes'));
+    app.use('/api/documents', require('./routes/documents.routes'));
+    app.use('/api/consumables', require('./routes/consumables.routes'));
 
     // Health check
     app.get('/', (req, res) => res.send('Medical Backend API is running.'));

@@ -2,7 +2,7 @@ const db = require('../models/db');
 
 // Utils
 const validStatuses = ['unscheduled', 'scheduled', 'completed', 'cancelled'];
-
+const { convertFrenchDateToISO } = require('../helpers/dateHelpers');
 // Create new appointment
 exports.createAppointment = async (req, res) => {
   const { patient_id, doctor_id, status, date, start_time, end_time } = req.body;
@@ -21,12 +21,19 @@ exports.createAppointment = async (req, res) => {
     const [doctor] = await db.query('SELECT id FROM users WHERE id = ? AND role = "doctor"', [doctor_id]);
     if (doctor.length === 0) return res.status(400).json({ error: 'Doctor not found or invalid' });
   }
+  let isoAppointmentDate = null;
+  if (date) {
+    isoAppointmentDate = convertFrenchDateToISO(date);
+    if (!isoAppointmentDate) {
+      return res.status(400).json({ error: 'Invalid date format. Use DD-MM-YYYY.' });
+    }
+  }
 
   // Insert
   await db.query(
     `INSERT INTO appointments (patient_id, doctor_id, status, date, start_time, end_time, created_by, created_at)
      VALUES (?, ?, ?, ?, ?, ?, ?, NOW())`,
-    [patient_id, doctor_id || null, status, date || null, start_time || null, end_time || null, created_by]
+    [patient_id, doctor_id || null, status, isoAppointmentDate || null, start_time || null, end_time || null, created_by]
   );
 
   res.status(201).json({ message: 'Appointment created successfully' });
@@ -44,11 +51,18 @@ exports.updateAppointment = async (req, res) => {
     return res.status(400).json({ error: 'Invalid status value' });
   }
 
+  let isoAppointmentDate = null;
+  if (date) {
+    isoAppointmentDate = convertFrenchDateToISO(date);
+    if (!isoAppointmentDate) {
+      return res.status(400).json({ error: 'Invalid date format. Use DD-MM-YYYY.' });
+    }
+  }
   await db.query(
     `UPDATE appointments 
      SET doctor_id = ?, status = ?, date = ?, start_time = ?, end_time = ?
      WHERE id = ?`,
-    [doctor_id || null, status, date || null, start_time || null, end_time || null, id]
+    [doctor_id || null, status, isoAppointmentDate || null, start_time || null, end_time || null, id]
   );
 
   res.json({ message: 'Appointment updated' });

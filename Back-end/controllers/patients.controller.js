@@ -96,3 +96,12 @@ exports.updatePatient = async (req, res) => {
 
   res.json({ message: 'Patient updated successfully' });
 };
+
+
+//Delete patient
+exports.deletePatient = async (req,res) => {
+  const { id } =req.params;
+
+  await db.query('DELETE FROM patients WHERE id = ?', [id]);
+    res.json({ message: 'Patient deleted successfully' });
+}
